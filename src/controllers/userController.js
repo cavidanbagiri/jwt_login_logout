@@ -11,8 +11,8 @@ class UserController {
         await tryCatch(
             await user.registerUser()
                 .then((respond) => {
-                    res.cookie('refreshToken', respond.refresh, { maxAge: '30m', httpOnly: true });
-                    return res.status(200).send(respond);
+                    res.cookie('refreshToken', respond.refresh, { maxAge:  60 * 24 * 60 * 60 * 1000, httpOnly: true });
+                    return res.status(201).json(respond);
                 }).catch((err) => {
                     next(err);
                 })
@@ -29,7 +29,7 @@ class UserController {
             LoginUser.userLogin(user_data)
                 .then((respond) => {
                     res.cookie('refreshToken', respond.refresh, { maxAge: 60 * 24 * 60 * 60 * 1000, httpOnly: true });
-                    return res.status(200).send(respond);
+                    return res.status(200).json(respond);
                 }).catch(err => {
                     next(err);
                 })
@@ -45,9 +45,24 @@ class UserController {
     }
 
 
+    // fetching
+    static async fetchingSome(req, res, next) {
+        const data = [
+            {id:1, name:'Apple'},
+            {id:2, name:'Granate'},
+            {id:3, name:'Banana'},
+            {id:4, name:'Pine Apple'},
+            {id:5, name:'Tomate'},
+            {id:6, name:'Potate'},
+        ];
+        console.log('data is : ', data);
+        return res.status(200).json(data);
+    }
+
     // Refresh Token
     static async refresh(req, res, next) {
-        const { refreshToken } = req.cookies;
+        // const { refreshToken } = req.cookies; -- This Is For Web Developement, VUE Js
+        const refreshToken = req.headers.refreshtoken;
         const user_data = await RefreshToken.refresh(refreshToken);
         res.cookie('refreshToken', user_data.refresh, { maxAge: 60 * 24 * 60 * 60 * 1000, httpOnly: true });
         return res.status(200).send(user_data);

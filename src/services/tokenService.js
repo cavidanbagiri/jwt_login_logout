@@ -6,7 +6,7 @@ class TokenService {
 
     // Generate Token
     static generateToken(user_data) {
-        const access_token = JWT.sign(user_data, 'access_token', { expiresIn: '30m' });
+        const access_token = JWT.sign(user_data, 'access_token', { expiresIn: '1m' });
         const refresh_token = JWT.sign(user_data, 'refresh_token', { expiresIn: '60d' });
         return { access_token, refresh_token };
     }
@@ -48,6 +48,7 @@ class TokenService {
             return user_data;
         }
         catch (err) {
+            console.log('token expired : err', err);
             return null;
         }
     }
@@ -63,7 +64,15 @@ class TokenService {
         }
     }
 
+    static findToken(refresh_token){
 
+        const token_data = TokenModels.findOne({
+          where:{
+            refresh_token: refresh_token
+          }
+        })
+        return token_data;
+      }
 
 }
 

@@ -26,7 +26,6 @@ class RegisterUser {
             const { access_token, refresh_token } = this.#generateToken(new_user);
             // Save New User and Refresh Token In Token Models
             await TokenService.saveToken(new_user.id, refresh_token);
-
             return {
                 user: new_user,
                 access_token: access_token,
@@ -56,8 +55,6 @@ class RegisterUser {
             username: user_data.user_name
         };
         const { access_token, refresh_token } = TokenService.generateToken(user);
-        console.log('1 : ', access_token);
-        console.log('2 : ', refresh_token);
         return { access_token, refresh_token };
     }
 
@@ -74,6 +71,7 @@ class LoginUser {
             const find_user_data = {
                 id: find_user.id,
                 email: find_user.email,
+                username: find_user.username,
                 is_admin: find_user.is_admin
             }
             const tokens = TokenService.generateToken(find_user_data);
@@ -82,9 +80,9 @@ class LoginUser {
             await TokenService.saveToken(find_user_data.id, tokens.refresh_token);
 
             return {
-                access: tokens.access_token,
-                refresh: tokens.refresh_token,
-                user: find_user_data
+                user: find_user_data,
+                access_token: tokens.access_token,
+                refresh_token: tokens.refresh_token,
             }
 
         }
@@ -159,8 +157,8 @@ class RefreshToken {
         await TokenService.saveToken(find_user_data.id, tokens.refresh_token);
 
         return {
-            access: tokens.access_token,
-            refresh: tokens.refresh_token,
+            access_token: tokens.access_token,
+            refresh_token: tokens.refresh_token,
             user: find_user_data
         }
 

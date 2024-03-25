@@ -15,6 +15,7 @@ router.post('/logout', UserController.userLogout);
 
 router.get('/refresh', UserController.refresh);
 
+router.get('/fetching', authMiddleware, UserController.fetchingSome);
 
 router.get('/users', authMiddleware, UserController.fetchUsers);
 

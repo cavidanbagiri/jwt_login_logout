@@ -21,6 +21,7 @@ class CategoryController {
 
     // Fetch Categories
     static async fetchCategories(req, res, next){
+        console.log('fethc categorie4s already work');
         tryCatch(
             await FetchCategoriesService.fetchCategories()
             .then((respond)=>{

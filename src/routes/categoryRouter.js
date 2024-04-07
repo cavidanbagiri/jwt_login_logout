@@ -1,11 +1,13 @@
 
 const express = require('express');
 const CategoryController = require('../controllers/categoryController');
+const authMiddleware = require('../middleware/authMiddleware');
 const router = express.Router();
 
-router.post('/createcategory', CategoryController.createCategory);
+router.get('/', authMiddleware, CategoryController.fetchCategories);
 
-router.get('/', CategoryController.fetchCategories);
+router.post('/createcategory', authMiddleware, CategoryController.createCategory);
+
 
 
 module.exports = router;

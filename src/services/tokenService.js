@@ -6,7 +6,7 @@ class TokenService {
 
     // Generate Token
     static generateToken(user_data) {
-        const access_token = JWT.sign(user_data, 'access_token', { expiresIn: '1m' });
+        const access_token = JWT.sign(user_data, 'access_token', { expiresIn: '30m' });
         const refresh_token = JWT.sign(user_data, 'refresh_token', { expiresIn: '60d' });
         return { access_token, refresh_token };
     }

@@ -20,12 +20,14 @@ class ProductServiceCreateProduct {
             userId: data.userId,
             countryId: data.countryId,
         });
-
-        // Save Image To Cloud and get location
-        const location = await UploadImage.uploadImage(file);
-
-        // Save Cloud-Image-Location to Database
-        const image_intance = await UploadImage.createImageInstance(location, new_product.id)
+        
+        if(file){
+            // Save Image To Cloud and get location
+            const location = await UploadImage.uploadImage(file);
+    
+            // Save Cloud-Image-Location to Database
+            const image_intance = await UploadImage.createImageInstance(location, new_product.id)
+        }
 
         return new_product;
     }

@@ -1,5 +1,5 @@
 
-const { ProductModels, ImageModels } = require('../..//models');
+const { ProductModels, ImageModels, CountryModels, CategoryModels } = require('../..//models');
 const s3 = require('../storage/storage');
 
 class ProductServiceCreateProduct {
@@ -20,11 +20,11 @@ class ProductServiceCreateProduct {
             userId: data.userId,
             countryId: data.countryId,
         });
-        
-        if(file){
+
+        if (file) {
             // Save Image To Cloud and get location
             const location = await UploadImage.uploadImage(file);
-    
+
             // Save Cloud-Image-Location to Database
             const image_intance = await UploadImage.createImageInstance(location, new_product.id)
         }
@@ -35,7 +35,7 @@ class ProductServiceCreateProduct {
 }
 
 class UploadImage {
-    
+
     // Upload Image To Bucket and take location
     static async uploadImage(file) {
         const upload = await s3.Upload({
@@ -48,9 +48,9 @@ class UploadImage {
     }
 
     // Create Instance and save in imagemodels
-    static async createImageInstance (url, productId){
+    static async createImageInstance(url, productId) {
         const result = await ImageModels.create({
-            image:url,
+            image: url,
             productId: productId
         });
         return result;
@@ -62,7 +62,35 @@ class UploadImage {
 class FetchAllProducts {
 
     static async fetchProducts() {
-        const products = await ProductModels.findAll();
+        const products = await ProductModels.findAll(
+            {
+                attributes: [
+                    "id",
+                    "product_name",
+                    "amount",
+                    "unit",
+                    "price",
+                    "currency",
+                    "comment",
+                    "status",
+                    "createdAt",
+                    "updatedAt",
+                    "categoryId",
+                    "countryId",
+                    "userId"
+                ],
+                include: [
+                    {
+                        model: CategoryModels,
+                        attributes: ['id', 'category_name'],
+                    },
+                    {
+                        model: CountryModels,
+                        attributes: ['id', 'country_name']
+                    },
+                ]
+            }
+        );
         return products;
     }
 

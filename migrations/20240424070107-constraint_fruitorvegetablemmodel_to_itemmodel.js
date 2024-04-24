@@ -3,24 +3,12 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up (queryInterface, Sequelize) {
-    await queryInterface.addConstraint('CardModels', {
-      fields: ['userId'],
+    await queryInterface.addConstraint('FruitOrVegetableModels', {
+      fields: ['itemId'],
       type: 'foreign key',
-      name: '"userId"',
+      name: '"itemId"',
       references: { //Required field
-        table: 'UserModels',
-        field: 'id'
-      },
-      onDelete: 'cascade',
-      onUpdate: 'cascade'
-    });
-    
-    await queryInterface.addConstraint('CardModels', {
-      fields: ['categoryId'],
-      type: 'foreign key',
-      name: '"categoryId"',
-      references: { //Required field
-        table: 'CategoryModels',
+        table: 'ItemModels',
         field: 'id'
       },
       onDelete: 'cascade',
@@ -35,8 +23,6 @@ module.exports = {
   },
 
   async down (queryInterface, Sequelize) {
-    await queryInterface.removeConstraint("CardModels", "userId");
-    await queryInterface.removeConstraint("CardModels", "categoryId");
     /**
      * Add reverting commands here.
      *

@@ -6,12 +6,15 @@ const router = express.Router();
 
 const upload = require('../middleware/multerMiddleware');
 
-// router.post('/create', authMiddleware, ProductController.createProduct);
+// Fetch All product
+router.get('/', authMiddleware, ProductController.fetchAllProducts);
+
+// Create New product
 router.post('/create', authMiddleware, upload.single('image'), ProductController.createProduct);
 
+// Update Image For product
 router.post('/uploadimage', authMiddleware, upload.single('image'), ProductController.uploadImage);
 
-router.get('/', authMiddleware, ProductController.fetchAllProducts);
 
 
 module.exports = router;

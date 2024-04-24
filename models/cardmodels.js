@@ -18,12 +18,6 @@ module.exports = (sequelize, DataTypes) => {
     userId: {
       type:DataTypes.INTEGER
     },
-    categoryId: {
-      type:DataTypes.INTEGER
-    },
-    selectedId:{
-      type: DataTypes.INTEGER
-    }
   }, {
     sequelize,
     modelName: 'CardModels',

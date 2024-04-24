@@ -3,7 +3,18 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up (queryInterface, Sequelize) {
-    await queryInterface.addConstraint('ProductModels', {
+    await queryInterface.addConstraint('ItemModels', {
+      fields: ['countryId'],
+      type: 'foreign key',
+      name: '"countryId"',
+      references: { //Required field
+        table: 'CountryModels',
+        field: 'id'
+      },
+      onDelete: 'cascade',
+      onUpdate: 'cascade'
+    });
+    await queryInterface.addConstraint('ItemModels', {
       fields: ['categoryId'],
       type: 'foreign key',
       name: '"categoryId"',
@@ -14,23 +25,12 @@ module.exports = {
       onDelete: 'cascade',
       onUpdate: 'cascade'
     });
-    await queryInterface.addConstraint('ProductModels', {
+    await queryInterface.addConstraint('ItemModels', {
       fields: ['userId'],
       type: 'foreign key',
       name: '"userId"',
       references: { //Required field
         table: 'UserModels',
-        field: 'id'
-      },
-      onDelete: 'cascade',
-      onUpdate: 'cascade'
-    });
-    await queryInterface.addConstraint('ProductModels', {
-      fields: ['countryId'],
-      type: 'foreign key',
-      name: '"countryId"',
-      references: { //Required field
-        table: 'CountryModels',
         field: 'id'
       },
       onDelete: 'cascade',
@@ -45,9 +45,6 @@ module.exports = {
   },
 
   async down (queryInterface, Sequelize) {
-    await queryInterface.removeConstraint("ProductModels", "categoryId");
-    await queryInterface.removeConstraint("ProductModels", "userId");
-    await queryInterface.removeConstraint("ProductModels", "countryId");
     /**
      * Add reverting commands here.
      *

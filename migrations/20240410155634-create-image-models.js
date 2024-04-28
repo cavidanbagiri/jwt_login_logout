@@ -12,7 +12,7 @@ module.exports = {
       image_url: {
         type: Sequelize.STRING
       },
-      itemId: {
+      itemsId: {
         type: Sequelize.INTEGER
       },
       createdAt: {

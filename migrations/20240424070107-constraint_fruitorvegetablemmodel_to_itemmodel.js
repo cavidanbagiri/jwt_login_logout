@@ -4,11 +4,11 @@
 module.exports = {
   async up (queryInterface, Sequelize) {
     await queryInterface.addConstraint('FruitOrVegetableModels', {
-      fields: ['itemId'],
+      fields: ['itemsId'],
       type: 'foreign key',
-      name: '"itemId"',
+      name: '"itemsId"',
       references: { //Required field
-        table: 'ItemModels',
+        table: 'ItemsModels',
         field: 'id'
       },
       onDelete: 'cascade',

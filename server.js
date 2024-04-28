@@ -18,13 +18,13 @@ app.use(cors(
 const error_handler = require('./src/middleware/errorHandler');
 
 // import routes
-const { UserRouter, CategoryRouter, CountriesRouter, ProductRouter, CardRouter } = require('./src/routes');
+const { UserRouter, CategoryRouter, CountriesRouter, ItemsRouter, CardRouter } = require('./src/routes');
 
 // use routes
 app.use('/api/user', UserRouter);
 app.use('/api/category', CategoryRouter);
 app.use('/api/countries', CountriesRouter);
-app.use('/api/product', ProductRouter);
+app.use('/api/items', ItemsRouter);
 app.use('/api/cards', CardRouter);
 
 

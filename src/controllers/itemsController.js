@@ -1,21 +1,22 @@
 
-const { ProductServiceCreateProduct, FetchAllProducts, UploadImage } = require("../services/productService");
+const { ItemServiceCreateItem, ItemServiceFetchAllItems, UploadImage } = require("../services/itemsService");
 
 const tryCatch = require('../utils/tryCatch');
 
-class ProductController {
+class ItemsController {
 
     // Create New Product
-    static async createProduct(req, res, next) {
+    static async createItem(req, res, next) {
         const data = req.body;
-        data.userId = req.user.id;
+        // data.userId = req.user.id;
+        data.userId = 10;
         const file = req.file;
         tryCatch(
-            await ProductServiceCreateProduct.createProduct(data, file)
+            await ItemServiceCreateItem.createItem(data, file)
             .then((respond)=>{
-                return res.status(201).json({msg:"Successfully Created"});
+                return res.status(201).json({msg:"Item Successfully Created"});
             }).catch((err)=>{
-                console.log('Create new Product Controller Error : ', err);
+                console.log('Create new Item Controller Error : ', err);
                 next(err);
             })
         )
@@ -41,9 +42,9 @@ class ProductController {
     }
 
     // Fetch All Products
-    static async fetchAllProducts(req, res, next){
+    static async fetchAllItems(req, res, next){
         tryCatch(
-            await FetchAllProducts.fetchProducts()
+            await ItemServiceFetchAllItems.fetchItems()
             .then((respond)=>{
                 return res.status(200).json(respond);
             }).catch((err)=>{
@@ -56,4 +57,4 @@ class ProductController {
 }
 
 
-module.exports = ProductController;
+module.exports = ItemsController;

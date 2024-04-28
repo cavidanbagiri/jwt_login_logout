@@ -12,7 +12,7 @@ module.exports = {
       kind: {
         type: Sequelize.STRING
       },
-      itemId: {
+      itemsId: {
         type: Sequelize.INTEGER,
         allowNull: false
       },

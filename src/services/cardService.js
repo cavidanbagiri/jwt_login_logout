@@ -1,6 +1,6 @@
 
 const { where } = require('sequelize');
-const {CardModels, UserModels, CategoryModels} = require('../../models');
+const {CardModels, UserModels, ItemsModels} = require('../../models');
 
 class AddCardService {
 
@@ -8,8 +8,7 @@ class AddCardService {
         // Add To Card UserId and CategoryId
         const result = await CardModels.create({
             userId: data.userId,
-            categoryId: data.categoryId,
-            selectedId: data.selectedId
+            itemsId: data.itemsId
         });
         return result;
     }
@@ -22,15 +21,15 @@ class FetchCardCardService {
             where:{
                 userId:userId
             },
-            attributes:['id', 'userId'],
+            attributes:['id', 'userId', 'itemsId'],
             include: [
                 {
                     model: UserModels,
-                    attributes: ['id', 'username']
+                    attributes: ['username',]
                 },
                 {
-                    model: CategoryModels,
-                    attributes: [['id', 'categoryId'], 'category_name']
+                    model: ItemsModels,
+                    attributes: ['name', 'amount', 'unit']
                 }
             ]
         });

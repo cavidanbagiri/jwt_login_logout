@@ -4,11 +4,11 @@
 module.exports = {
   async up (queryInterface, Sequelize) {
     await queryInterface.addConstraint('ProductModels', {
-      fields: ['itemId'],
+      fields: ['itemsId'],
       type: 'foreign key',
-      name: '"itemId"',
+      name: '"itemsId"',
       references: { //Required field
-        table: 'ItemModels',
+        table: 'ItemsModels',
         field: 'id'
       },
       onDelete: 'cascade',
@@ -23,7 +23,7 @@ module.exports = {
   },
 
   async down (queryInterface, Sequelize) {
-    await queryInterface.removeConstraint("ProductModels", "itemId");
+    await queryInterface.removeConstraint("ProductModels", "itemsId");
     /**
      * Add reverting commands here.
      *

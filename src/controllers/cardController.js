@@ -6,8 +6,8 @@ class CardController {
 
     // Fetch All Cards
     static async fetchCards(req, res, next) {
-        // const user_id = req.user.id;
-        const user_id = 10;
+        const user_id = req.user.id;
+        // const user_id = 10;
         tryCatch(
             await FetchCardCardService.fetchCards(user_id)
                 .then((respond) => {

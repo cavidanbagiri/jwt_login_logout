@@ -1,12 +1,13 @@
 
 
-const { ProductModels, ImageModels, CountryModels, CategoryModels, ItemsModels, FruitOrVegetableModels } = require('../../models');
+const { ProductModels, ImageModels, UserModels, CategoryModels, CountryModels, ItemsModels, FruitOrVegetableModels } = require('../../models');
 const s3 = require('../storage/storage');
 
 class ItemServiceCreateItem {
 
     // Create New Product
     static async createItem(data, file) {
+        console.log('coming data is : ', data);
         // 1 - Create New Product
         const new_item = await ItemsModels.create({
             name: data.name,
@@ -20,18 +21,20 @@ class ItemServiceCreateItem {
             userId: data.userId,
             countryId: data.countryId,
         });
-
         // 2 - Create New Item according to new item
-        switch(data.categoryId){
+        switch(Number(data.categoryId)){
             case 1:
                 await ProductModels.create({
                     itemsId: new_item.id
-                })
-                break;
-            case 2:
-                await FruitOrVegetableModels.create({
-                    itemsId: new_item.id
                 });
+                console.log('enter product');
+                break;
+                case 2:
+                    await FruitOrVegetableModels.create({
+                        itemsId: new_item.id,
+                        kind: data.kind
+                    });
+                    console.log('enter product');
                 break;
         };
 
@@ -63,10 +66,10 @@ class UploadImage {
     }
 
     // Create Instance and save in imagemodels
-    static async createImageInstance(url, productId) {
+    static async createImageInstance(url, itemsId) {
         const result = await ImageModels.create({
-            image: url,
-            itemsId: productId
+            image_url: url,
+            itemsId: itemsId
         });
         return result;
     }
@@ -76,8 +79,66 @@ class UploadImage {
 // Fetch All products
 class ItemServiceFetchAllItems {
 
+    // static async fetchItems() {
+    //     const respond = await ItemsModels.findAll({
+    //         attributes:[
+    //              'id',
+    //              'name',
+    //              'amount',
+    //              'unit',
+    //              'price',
+    //              'currency',
+    //              'comment',
+    //              'status',
+    //              'categoryId',
+    //              'userId',
+    //         ],
+    //         include: [
+    //             {
+    //                 model: UserModels,
+    //                 attributes: ['username',]
+    //             },
+    //             {
+    //                 model: CategoryModels,
+    //                 attributes: ['category_name',]
+    //             },
+    //             {
+    //                 model: CountryModels,
+    //                 attributes: ['country_name',]
+    //             },
+    //         ]
+    //     });
+    //     return respond;
+    // }
     static async fetchItems() {
-        const respond = await ItemsModels.findAll();
+        const respond = await ItemsModels.findAll({
+            attributes:[
+                 'id',
+                 'name',
+                 'amount',
+                 'unit',
+                 'price',
+                 'currency',
+                 'comment',
+                 'status',
+                 'categoryId',
+                 'userId',
+            ],
+            include: [
+                {
+                    model: UserModels,
+                    attributes: ['username',]
+                },
+                {
+                    model: CategoryModels,
+                    attributes: ['category_name',]
+                },
+                {
+                    model: CountryModels,
+                    attributes: ['country_name',]
+                },
+            ]
+        });
         return respond;
     }
 

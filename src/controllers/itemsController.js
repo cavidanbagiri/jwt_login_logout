@@ -8,8 +8,8 @@ class ItemsController {
     // Create New Product
     static async createItem(req, res, next) {
         const data = req.body;
-        // data.userId = req.user.id;
-        data.userId = 10;
+        data.userId = req.user.id;
+        // data.userId = 10;
         const file = req.file;
         tryCatch(
             await ItemServiceCreateItem.createItem(data, file)
@@ -42,7 +42,7 @@ class ItemsController {
     }
 
     // Fetch All Products
-    static async fetchAllItems(req, res, next){
+    static async  fetchAllItems(req, res, next){
         tryCatch(
             await ItemServiceFetchAllItems.fetchItems()
             .then((respond)=>{

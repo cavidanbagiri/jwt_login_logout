@@ -33,9 +33,6 @@ class FetchCardCardService {
                 }
             ]
         });
-        // for(let i of result){
-        //     console.log('i is : ',i.dataValues);
-        // }
         return result;
     }
 }
